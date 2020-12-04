@@ -56,7 +56,7 @@ homicide_df =
   select(city_state, resolution, victim_age, victim_race, victim_sex)
 ```
 
-## Start with one city.
+## start with one city.
 
 ```{r}
 baltimore_df =
@@ -77,7 +77,7 @@ glm(resolution ~ victim_age + victim_race + victim_sex,
   knitr::kable(digits = 3)
 ```
 
-## Try this across cities.
+## try this across cities.
 
 ```{r}
 models_results_df = 
@@ -99,6 +99,8 @@ models_results_df =
   select(city_state, term, OR, starts_with("CI")) 
 ```
 
+## make plot
+
 ```{r}
 models_results_df %>% 
   filter(term == "victim_sexMale") %>% 
@@ -107,6 +109,23 @@ models_results_df %>%
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+
+# Problem 2
+
+## load data and set factors
+
+```{r}
+baby_df = 
+  read_csv("./data/birthweight.csv") %>% 
+  mutate(
+    babysex = factor(babysex, labels = c("male","female")),
+    frace = factor(frace, labels = c("White","Black","Asian","Puerto Rican","Other")),
+    malform = factor(malform, labels = c("absent","present")),
+    mrace = factor(mrace, labels = c("White","Black", "Asian", "Puerto Rican"))
+  )
 ```
 
 
