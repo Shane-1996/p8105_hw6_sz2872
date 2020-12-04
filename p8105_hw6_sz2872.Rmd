@@ -121,12 +121,27 @@ models_results_df %>%
 baby_df = 
   read_csv("./data/birthweight.csv") %>% 
   mutate(
-    babysex = factor(babysex, labels = c("male","female")),
-    frace = factor(frace, labels = c("White","Black","Asian","Puerto Rican","Other")),
-    malform = factor(malform, labels = c("absent","present")),
-    mrace = factor(mrace, labels = c("White","Black", "Asian", "Puerto Rican"))
+    babysex = factor(babysex, labels = c("male", "female")),
+    frace = factor(frace, labels = c("White", "Black", "Asian", "Puerto Rican", "Other")),
+    malform = factor(malform, labels = c("absent", "present")),
+    mrace = factor(mrace, labels = c("White", "Black", "Asian", "Puerto Rican"))
   )
 ```
 
+```{r}
+model_fit_1 = lm(bwt ~ gaweeks, data = baby_df)
+
+baby_df %>% 
+  add_predictions(model_fit_1) %>% 
+  add_residuals(model_fit_1) %>% 
+  ggplot(aes(x = pred, y = resid)) + 
+  geom_point()
+```
+
+```{r}
+model_fit_2 = lm(bwt ~ blength + gaweeks, data = baby_df)
+
+model_fit_3 = lm(bwt ~ blength * bhead * babysex, data = baby_df)
+```
 
 
